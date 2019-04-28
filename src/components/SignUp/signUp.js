@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Alert } from "reactstrap";
 import SimpleSchema from "simpl-schema";
+import { register } from "./../../API/User";
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ export default class SignUp extends React.Component {
   }
   handleSubmit = e => {
     e.preventDefault();
-
+    console.log("start");
+    // debugger;
     const validationContext = new SimpleSchema({
       name: {
         type: String,
@@ -44,17 +46,30 @@ export default class SignUp extends React.Component {
         optional: false
       }
     }).newContext();
+
     this.setState({ name: "", email: "", password: "", confirmPassword: "", message: "" });
     const name = this.state.name;
     const password = this.state.password;
     const confirmPassword = this.state.confirmPassword;
     const email = this.state.email;
+    const isAdmin = this.state.isAdmin;
     validationContext.validate({ name, email, password, confirmPassword });
     if (validationContext.isValid() && password === confirmPassword) {
-      this.setState({ message: "Well Done, Now you can log in" });
+      register({ name, email, password, isAdmin })
+        .then(res => {
+          console.log("done");
+          this.setState({ message: "Well Done, Now you can log in" });
+          // this.setState({ name: "", email: "", password: "", confirmPassword: "", message: "" });
+        })
+        .catch(err => {
+          console.log("not done ");
+          if (err.response.data.message.includes("duplicate key")) this.setState({ message: "this email used before" });
+        });
+
       console.log(validationContext);
       console.log("Submit done sucessfully ");
     } else {
+      console.log("error ");
       console.log(validationContext.isValid());
       console.log(this.state);
       this.setState({ message: "Your data is invalid" });

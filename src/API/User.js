@@ -4,7 +4,7 @@ const URL = process.env.REACT_APP_BackEnd_URL || "http://localhost:3000";
 
 export const register = ({ name, email, password }) => {
   //   debugger;
-  return axios.post(`${URL}/users/register`, { name, email, password }).then(res => res.data);
+  return axios.post(`${URL}/user/register`, { name, email, password }).then(res => res.data);
 };
 export const login = ({ name, password }) => {
   //   debugger;
