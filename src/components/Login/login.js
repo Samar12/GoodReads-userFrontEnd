@@ -4,21 +4,61 @@ import { Row, Col } from "react-bootstrap";
 import { MyContext } from "../../App";
 import { users } from "./../../data/data";
 import { Alert } from "reactstrap";
+import { login, getProfile } from "./../../API/User";
 
 class Login extends React.Component {
   state = {
-    firstName: "",
+    name: "",
     password: "",
-    admin: false,
     message: ""
   };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log("start");
+    const { name, password } = this.state;
+    // debugger;
+    if (name === "" && password === "") this.setState({ message: "Fill The data please" });
+    else if (password === "") this.setState({ message: "Enter password..." });
+    else if (name === "") this.setState({ message: "Enter userName..." });
+    else {
+      // debugger;
+      login({ name, password })
+        .then(res => {
+          // debugger;
+          localStorage.setItem("userToken", res.token);
+          console.log(res.token);
+          getProfile()
+            .then(res => {})
+            .catch(err => {
+              // debugger;
+              this.setState({ message: "Try Again" });
+            });
+          this.props.history.push("/user");
+        })
+        .catch(err => {
+          this.setState({ message: "Make sure of your data" });
+        });
+    }
+  };
+
   onChange = e => {
+    // console.log(e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
-  onSubmit = e => {
-    e.preventDefault();
-    console.log("hiiii user");
-  };
+
+  // search = users => {
+  //   const isFound = users.filter(e => e.firstName.toLowerCase() === this.state.firstName.toLowerCase() && e.password === this.state.password);
+  //   if (isFound.length !== 0) {
+  //     isFound.map(e => {
+  //       e.firstName.toLowerCase() === this.state.firstName.toLowerCase() && e.password === this.state.password && e.admin === true
+  //         ? this.props.history.push("/admin")
+  //         : this.props.history.push("/user");
+  //     });
+  //   } else {
+  //     this.setState({ message: "notValid" });
+  //   }
+  // };
 
   render() {
     return (
@@ -40,12 +80,12 @@ class Login extends React.Component {
                           </h2>
                         )}
                         <div className="form-group form-group1 ">
-                          <input type="text" onChange={this.onChange} name="firstName" className="form-control form-control1 mt-5" placeholder="Name..." />
+                          <input type="text" onChange={this.onChange} name="name" className="form-control form-control1 mt-5" placeholder="Name..." />
                         </div>
                         <div className="form-group form-group1  ">
                           <input type="password" onChange={this.onChange} name="password" className="form-control form-control1" placeholder="Password..." />
                         </div>
-                        <button type="submit" onClick={this.onSubmit} className=" login__btn ">
+                        <button type="submit" onClick={this.handleSubmit} className=" login__btn ">
                           Login
                         </button>
                       </form>
