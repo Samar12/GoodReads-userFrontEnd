@@ -5,6 +5,7 @@ import { MyContext } from "../../../App";
 import BookCard from "./bookCard";
 import UserNavbar from "./../../Navbar/userNav";
 
+
 export default class AuthorDetails extends React.Component {
   constructor(props) {
     super(props);
