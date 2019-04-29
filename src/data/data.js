@@ -245,4 +245,14 @@ export const myBooks = [
   }
 ];
 
-export const categories = [{ id: "1", name: "Science", photo: "http://waynehastings.com/wp-content/uploads/2014/11/book_category.jpg" }, { id: "2", name: "Art", photo: "https://www.nownovel.com/blog/wp-content/uploads/2016/01/Fantasy-book-writing-7-tips-for-captivating-high-fantasy.jpg" }, { id: "3", name: "Romance", photo: "https://timedotcom.files.wordpress.com/2015/06/521811839-copy.jpg" }, { id: "4", name: "Philosophy", photo:"https://static1.squarespace.com/static/56bf8adad51cd4587e5f14b2/t/5a4689939140b7ea14bc3c70/1514744627450/best-books-book-youll-ever-read.jpg?format=1000w"}];
+export const categories = [
+  { id: "1", name: "Science", photo: "http://waynehastings.com/wp-content/uploads/2014/11/book_category.jpg" },
+  { id: "2", name: "Art", photo: "https://www.nownovel.com/blog/wp-content/uploads/2016/01/Fantasy-book-writing-7-tips-for-captivating-high-fantasy.jpg" },
+  { id: "3", name: "Romance", photo: "https://timedotcom.files.wordpress.com/2015/06/521811839-copy.jpg" },
+  {
+    id: "4",
+    name: "Philosophy",
+    photo:
+      "https://static1.squarespace.com/static/56bf8adad51cd4587e5f14b2/t/5a4689939140b7ea14bc3c70/1514744627450/best-books-book-youll-ever-read.jpg?format=1000w"
+  }
+];

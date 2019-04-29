@@ -58,3 +58,26 @@
   margin-top: 2rem;
   width: 80%;
 }
+.error-text {
+  font-size: 1.3rem;
+  color: red;
+}
+
+.svg {
+  width: 70%;
+  height: 70%;
+  margin-top: -4rem;
+  margin-left: -3rem;
+  transform: rotate(-20deg);
+}
+.svg path {
+  fill: none;
+  stroke: black;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.svg-path {
+  stroke: $color-primary !important;
+}

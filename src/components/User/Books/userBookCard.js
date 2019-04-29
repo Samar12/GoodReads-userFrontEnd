@@ -71,9 +71,7 @@ class UserBookCard extends React.Component {
         <td className="book-title">
           <Link to={`/book/${this.props.book.id}`}> {this.props.book.bookId.name}</Link>
         </td>
-        <td className="book-author">
-          <Link to={`/author/${this.props.book.bookId.authorID}`}>{this.getAuthorName(this.props.book.bookId.authorID)}</Link>
-        </td>
+
         <td className="book-rate">
           <Stars num={this.props.book.rating} bookId={this.props.book.bookId} />
         </td>

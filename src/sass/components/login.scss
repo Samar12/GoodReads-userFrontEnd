@@ -12,7 +12,7 @@
   }
 }
 .login-form .login__btn {
-  margin-left: 17rem;
+  margin-left: 20rem;
   width: 20rem;
   background-color: $color-secondary;
   height: 5rem;
@@ -23,10 +23,10 @@
   font-weight: 600;
   &:hover,
   &:visited {
-    margin-left: 17rem;
+    margin-left: 20rem;
     width: 20rem;
-    background-color: $color-secondary2;
-    border: 2px solid $color-secondary2;
+    background-color: $color-secondary;
+    border: 2px solid $color-secondary;
     font-size: 1.8rem;
     color: $color-white;
     font-weight: 600;
@@ -48,7 +48,7 @@
   border-radius: 2.5rem;
   padding: 6rem;
   justify-content: center;
-  background-color: $color-primary;
+  background-color: #8d5875;
 }
 
 .login-form .form-group1 {
@@ -63,4 +63,8 @@
 
 .cardUp {
   color: $color-primary !important;
+}
+
+.login-title {
+  color: $color-white;
 }

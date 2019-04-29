@@ -17,20 +17,20 @@ export default class AuthorList extends React.Component {
     return (
       <MyContext.Consumer>
         {value => (
-          <Container className="mt-4 mb-4">
-            <Row>
-              <UserNavbar />
-            </Row>
-            <Row md="12" className="justify-content-center">
-              {authors.map(a => {
-                return (
-                  <Col md="3" className="m-3">
-                    <AuthorCard author={a} />
-                  </Col>
-                );
-              })}
-            </Row>
-          </Container>
+          <>
+            <UserNavbar />
+            <Container className="m-5 p-5">
+              <Row md="12" className="justify-content-center">
+                {authors.map(a => {
+                  return (
+                    <Col md="3" className="m-3">
+                      <AuthorCard author={a} />
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Container>
+          </>
         )}
       </MyContext.Consumer>
     );

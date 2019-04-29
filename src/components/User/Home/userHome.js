@@ -7,6 +7,7 @@ import UserNavbar from "./../../Navbar/userNav";
 import { getPaginationCount } from "./../../../helpers/helper";
 import MyPaging from "../../SharedComponent/Pagination/myPaging";
 import UserBookCard from "../Books/userBookCard";
+const uuidv1 = require("uuid/v1");
 
 class UserHome extends React.Component {
   constructor(props) {
@@ -130,7 +131,6 @@ class UserHome extends React.Component {
                         <tr className="mt-5 mb-5">
                           <th>Cover</th>
                           <th>Name</th>
-                          <th>Author</th>
                           <th>Avg Rate</th>
                           <th>Rating</th>
                           <th>Shelve</th>
@@ -147,7 +147,7 @@ class UserHome extends React.Component {
                 </Row>
                 <Row>
                   <Col>
-                    <MyPaging count={getPaginationCount(this.state.count)} action={this.onPaginationUpdate} />
+                    <MyPaging key={uuidv1} count={getPaginationCount(this.state.count)} action={this.onPaginationUpdate} />
                   </Col>
                 </Row>
               </Col>

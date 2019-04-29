@@ -10,7 +10,7 @@ const CategoryBooks = props => (
     <MyContext.Consumer>
       {value => (
         <Container>
-          {value.MyCategories.filter(category => category.id === props.match.params.id).map(c => (
+          {value.MyCategories.filter(category => category.id === props.match.params._id).map(c => (
             <a key={c.id} className="navbar-brand text-center category-title ">
               Category <span>{c.name} </span> Books
               <Col>
@@ -19,9 +19,9 @@ const CategoryBooks = props => (
             </a>
           ))}
           <Row className="text-center m-auto justify-content-around">
-            <CategoryBookList id={props.match.params.id} />
+            <CategoryBookList id={props.match.params._id} />
           </Row>
-          <MyPaging />
+          {/* <MyPaging /> */}
         </Container>
       )}
     </MyContext.Consumer>

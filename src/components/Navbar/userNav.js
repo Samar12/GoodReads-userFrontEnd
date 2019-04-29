@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Nav, Col, Navbar, FormControl, Form } from "react-bootstrap";
-import { bookSearch } from "./../../API/Book";
-import BookSearchList from "./../User/Books/bookSearchList";
 
 class UserNavbar extends React.Component {
   constructor(props) {
@@ -15,25 +13,25 @@ class UserNavbar extends React.Component {
     };
   }
 
-  onSearch = e => {
-    const value = e.target.value;
-    console.log(e.target.value);
-    const name = e.target.name;
-    this.setState({ [name]: value }, () => {
-      bookSearch(this.state.searchBook)
-        .then(res => {
-          this.setState({ matchedBooks: res });
-        })
-        .catch(err => {
-          this.setState({ error: "book search error" });
-        });
-    });
-    this.toggleSearchList();
-  };
+  // onSearch = e => {
+  //   const value = e.target.value;
+  //   console.log(e.target.value);
+  //   const name = e.target.name;
+  //   this.setState({ [name]: value }, () => {
+  //     bookSearch(this.state.searchBook)
+  //       .then(res => {
+  //         this.setState({ matchedBooks: res });
+  //       })
+  //       .catch(err => {
+  //         this.setState({ error: "book search error" });
+  //       });
+  //   });
+  //   this.toggleSearchList();
+  // };
 
-  toggleSearchList = () => {
-    this.state.show == "none" ? this.setState({ show: "block" }) : this.setState({ show: "block" });
-  };
+  // toggleSearchList = () => {
+  //   this.state.show == "none" ? this.setState({ show: "block" }) : this.setState({ show: "block" });
+  // };
 
   render() {
     return (
@@ -71,7 +69,6 @@ class UserNavbar extends React.Component {
                 placeholder="Search..."
                 className="mr-sm-2 searchBar"
               />
-              <BookSearchList display={this.state.show} values={this.state.matchedBooks} />
             </Form>
           </Navbar.Collapse>
         </Navbar>
