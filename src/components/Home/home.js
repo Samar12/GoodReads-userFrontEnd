@@ -2,6 +2,7 @@ import React from "react";
 import SignUp from "../SignUp/signUp";
 import DefaultNavBar from "../Navbar/defaultNav";
 import { Row, Col } from "react-bootstrap";
+import Slider from "./Slider";
 
 class Home extends React.Component {
   state = {
@@ -17,8 +18,8 @@ class Home extends React.Component {
           </Col>
         </Row>
         <Row className="d-flex justify-content-center pt-5">
-          <Col md="7" className="pt-5 caroul">
-            {/* <Slider /> */}
+          <Col md="7" className="pt-3 caroul">
+            <Slider />
           </Col>
           <Col md="4" className="pt-3">
             <SignUp />

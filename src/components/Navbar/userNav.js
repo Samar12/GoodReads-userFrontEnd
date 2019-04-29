@@ -1,25 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Nav, Col, Navbar, FormControl, Form } from "react-bootstrap";
+import { bookSearch } from "./../../API/Book";
+import BookSearchList from "./../User/Books/bookSearchList";
 
 class UserNavbar extends React.Component {
   constructor(props) {
     super(props);
-    // this.onSubmit = this.onSubmit.bind(this);
-    // this.handleTextInput = this.handleTextInput.bind(this);
     this.state = {
-      searchValue: "",
-      redirect: false
+      searchBook: "",
+      matchedBooks: [],
+      redirect: false,
+      show: "none"
     };
   }
-  onSubmit = e => {
-    e.preventDefault();
-    // this.setState({ redirect: true });
-    this.props.history.push("/search/" + this.state.searchValue);
+
+  onSearch = e => {
+    const value = e.target.value;
+    console.log(e.target.value);
+    const name = e.target.name;
+    this.setState({ [name]: value }, () => {
+      bookSearch(this.state.searchBook)
+        .then(res => {
+          this.setState({ matchedBooks: res });
+        })
+        .catch(err => {
+          this.setState({ error: "book search error" });
+        });
+    });
+    this.toggleSearchList();
   };
-  handleTextInput = e => {
-    this.setState({ searchValue: e.target.value });
+
+  toggleSearchList = () => {
+    this.state.show == "none" ? this.setState({ show: "block" }) : this.setState({ show: "block" });
   };
+
   render() {
     return (
       <Col className="m-0 p-0">
@@ -39,20 +54,27 @@ class UserNavbar extends React.Component {
                 Categories
               </Link>
 
-              {/* <Link to="/books" className="nav-link">
+              <Link to="/books" className="nav-link">
                 Books
-              </Link> */}
+              </Link>
 
               <Link to="/authors" className="nav-link">
                 Authors
               </Link>
             </Nav>
             <Form inline className="pt-3">
-              <FormControl type="text" placeholder="Search" className="mr-sm-2 searchBar" />
+              <FormControl
+                type="text"
+                name="searchBook"
+                value={this.state.searchBook}
+                onChange={this.onSearch}
+                placeholder="Search..."
+                className="mr-sm-2 searchBar"
+              />
+              <BookSearchList display={this.state.show} values={this.state.matchedBooks} />
             </Form>
           </Navbar.Collapse>
         </Navbar>
-        ;
       </Col>
     );
   }

@@ -12,13 +12,28 @@ export default class SignUp extends React.Component {
       email: "",
       password: "",
       confirmPassword: "",
-      message: ""
+      message: "",
+      nameError: "",
+      emailError: "",
+      passwordError: "",
+      confirmPasswordError: ""
     };
   }
   handleSubmit = e => {
     e.preventDefault();
     console.log("start");
     // debugger;
+    this.setState({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      message: "",
+      nameError: "",
+      passwordError: "",
+      emailError: "",
+      confirmPasswordError: ""
+    });
     const validationContext = new SimpleSchema({
       name: {
         type: String,
@@ -47,32 +62,31 @@ export default class SignUp extends React.Component {
       }
     }).newContext();
 
-    this.setState({ name: "", email: "", password: "", confirmPassword: "", message: "" });
     const name = this.state.name;
     const password = this.state.password;
     const confirmPassword = this.state.confirmPassword;
     const email = this.state.email;
-    const isAdmin = this.state.isAdmin;
     validationContext.validate({ name, email, password, confirmPassword });
     if (validationContext.isValid() && password === confirmPassword) {
-      register({ name, email, password, isAdmin })
+      register({ name, email, password })
+        // debugger;
         .then(res => {
-          console.log("done");
           this.setState({ message: "Well Done, Now you can log in" });
           // this.setState({ name: "", email: "", password: "", confirmPassword: "", message: "" });
         })
         .catch(err => {
-          console.log("not done ");
-          if (err.response.data.message.includes("duplicate key")) this.setState({ message: "this email used before" });
+          console.log(err.response.data.message);
+          if (err.response.data.message.includes("dup key")) {
+            this.setState({ emailError: "this email used before" });
+          }
+          if (err.response.data.message.includes("name: Path")) {
+            this.setState({ nameError: "name must consist of only chars" });
+          }
         });
-
-      console.log(validationContext);
-      console.log("Submit done sucessfully ");
+    } else if (confirmPassword != password) {
+      this.setState({ confirmPasswordError: "confirmPassword and password must be matched " });
     } else {
-      console.log("error ");
-      console.log(validationContext.isValid());
-      console.log(this.state);
-      this.setState({ message: "Your data is invalid" });
+      this.setState({ message: "All your data is invalid" });
     }
   };
   handleChange = e => {
@@ -89,7 +103,7 @@ export default class SignUp extends React.Component {
                 <h2>Sign Up Here ...</h2>
               ) : (
                 <h2>
-                  {this.state.message === "Your data is invalid" ? (
+                  {this.state.message != "Your data is invalid" ? (
                     <Alert color="danger">{this.state.message}</Alert>
                   ) : (
                     <Alert color="primary">{this.state.message}</Alert>
@@ -99,12 +113,15 @@ export default class SignUp extends React.Component {
 
               <Form.Group>
                 <Form.Control type="text" name="name" placeholder="Your Name..." value={this.state.name} onChange={this.handleChange} />
+                <span className="error-text">{this.state.nameError}</span>
               </Form.Group>
               <Form.Group>
                 <Form.Control type="text" name="email" placeholder="Your Email..." value={this.state.email} onChange={this.handleChange} />
+                <span className="error-text">{this.state.emailError}</span>
               </Form.Group>
               <Form.Group>
                 <Form.Control type="password" name="password" placeholder="Password..." value={this.state.password} onChange={this.handleChange} />
+                <span className="error-text">{this.state.passwordError}</span>
               </Form.Group>
               <Form.Group>
                 <Form.Control
@@ -114,6 +131,7 @@ export default class SignUp extends React.Component {
                   value={this.state.confirmPassword}
                   onChange={this.handleChange}
                 />
+                <span className="error-text">{this.state.confirmPasswordError}</span>
               </Form.Group>
 
               <Button variant="primary" type="submit">

@@ -18,7 +18,7 @@ class Login extends React.Component {
     console.log("start");
     const { name, password } = this.state;
     // debugger;
-    if (name === "" && password === "") this.setState({ message: "Fill The data please" });
+    if (name === "" && password === "") this.setState({ message: "Both name and password Required..." });
     else if (password === "") this.setState({ message: "Enter password..." });
     else if (name === "") this.setState({ message: "Enter userName..." });
     else {
@@ -27,7 +27,7 @@ class Login extends React.Component {
         .then(res => {
           // debugger;
           localStorage.setItem("userToken", res.token);
-          console.log(res.token);
+
           getProfile()
             .then(res => {})
             .catch(err => {
@@ -35,9 +35,10 @@ class Login extends React.Component {
               this.setState({ message: "Try Again" });
             });
           this.props.history.push("/user");
+          console.log(res.token);
         })
         .catch(err => {
-          this.setState({ message: "Make sure of your data" });
+          this.setState({ message: "Make sure of your data..." });
         });
     }
   };
@@ -46,19 +47,6 @@ class Login extends React.Component {
     // console.log(e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
-
-  // search = users => {
-  //   const isFound = users.filter(e => e.firstName.toLowerCase() === this.state.firstName.toLowerCase() && e.password === this.state.password);
-  //   if (isFound.length !== 0) {
-  //     isFound.map(e => {
-  //       e.firstName.toLowerCase() === this.state.firstName.toLowerCase() && e.password === this.state.password && e.admin === true
-  //         ? this.props.history.push("/admin")
-  //         : this.props.history.push("/user");
-  //     });
-  //   } else {
-  //     this.setState({ message: "notValid" });
-  //   }
-  // };
 
   render() {
     return (
@@ -73,7 +61,7 @@ class Login extends React.Component {
                     <Col md="12" className="pt-3 mt-5">
                       <form className="login-form">
                         {this.state.message === "" ? (
-                          <h2>Login Here ...</h2>
+                          <h2 className="login-title">Login Here ...</h2>
                         ) : (
                           <h2>
                             <Alert color="danger">{this.state.message}</Alert>

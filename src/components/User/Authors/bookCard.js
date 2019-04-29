@@ -10,15 +10,15 @@ export default class BookCard extends React.Component {
 
   render() {
     return (
-      <Card>
+      <Card className="bCard">
         <Card.Img variant="top" src={this.props.book.photo} />
         <Card.Body>
           <Card.Title className="book-title">
             {" "}
-            <Link to={`/book/${this.props.book.id}`}> {this.props.book.name}</Link>
+            <Link to={`/book/${this.props.book._id}`}> {this.props.book.name}</Link>
           </Card.Title>
           <Card.Text>
-            <Stars num={this.props.book.rating} readOnly={true} />
+            <Stars num={this.props.book.avgRating} bookId={this.props.book} />
           </Card.Text>
         </Card.Body>
       </Card>

@@ -1,50 +1,95 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import { MyContext } from "./../../../App";
+import { getAllBooks, getCurReadBooks, getReadBooks, getWantToReadBooks } from "./../../../API/User";
 import UserNavbar from "./../../Navbar/userNav";
-import UserBookList from "../Books/userBookList";
-import { myBooks, authors } from "./../../../data/data";
+import { getPaginationCount } from "./../../../helpers/helper";
 import MyPaging from "../../SharedComponent/Pagination/myPaging";
+import UserBookCard from "../Books/userBookCard";
 
 class UserHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      myBooks: myBooks,
-      data: myBooks
+      myBooks: [],
+      err: "",
+      rate: "",
+      status: "",
+      count: 0,
+      valuee: 1
     };
+
+    this.onPaginationUpdate = this.onPaginationUpdate.bind(this);
   }
+
+  componentDidMount = () => {
+    // debugger;
+    getAllBooks(this.state.value)
+      .then(res => {
+        this.setState({ myBooks: res.result, count: res.amount });
+        console.log(this.state.myBooks);
+        console.log(this.state.count);
+      })
+      .catch(err => {
+        this.setState({ err: "error" });
+      });
+  };
 
   handleChange = e => {
     const name = e.target.name;
     console.log(name);
+    this.setState({ valuee: 1 });
     switch (name) {
       case "all":
-        this.setState({ myBooks: this.state.data });
+        getAllBooks(this.state.valuee)
+          .then(res => {
+            this.setState({ myBooks: res.result, count: res.amount });
+            console.log(this.state.myBooks);
+          })
+          .catch(err => {
+            this.setState({ err: "error" });
+          });
         break;
 
       case "read":
-        const ReadedBooks = this.state.data.filter(e => e.read === true);
-        this.setState({ myBooks: ReadedBooks });
+        getReadBooks(this.state.valuee)
+          .then(res => {
+            this.setState({ myBooks: res.result, count: res.amount });
+            console.log(this.state.myBooks);
+          })
+          .catch(err => {
+            this.setState({ err: "error" });
+          });
         break;
       case "reading":
-        const currentlyRead = this.state.data.filter(e => e.currentlyRead === true);
-        this.setState({ myBooks: currentlyRead });
+        getCurReadBooks(this.state.valuee)
+          .then(res => {
+            this.setState({ myBooks: res.result, count: res.amount });
+            console.log(this.state.myBooks);
+          })
+          .catch(err => {
+            this.setState({ err: "error" });
+          });
         break;
       case "want":
-        const wanted = this.state.data.filter(e => e.wantToRead === true);
-        this.setState({ myBooks: wanted });
+        getWantToReadBooks(this.state.valuee)
+          .then(res => {
+            this.setState({ myBooks: res.result, count: res.amount });
+            console.log(this.state.myBooks);
+          })
+          .catch(err => {
+            this.setState({ err: "error" });
+          });
         break;
       default:
-        console.log("done");
+        console.log("Sucessfully Complete ");
     }
   };
-  findAuthorOfBook = id => {
-    const author = authors.filter(a => a.id === id);
-    const name = author.name;
-    return name;
-  };
+  onPaginationUpdate(amount) {
+    this.setState({ valuee: amount });
+    console.log(this.state.valuee);
+  }
 
   render() {
     return (
@@ -80,12 +125,29 @@ class UserHome extends React.Component {
                     </Row>
                   </Col>
                   <Col md="9" className=" p-0">
-                    {<UserBookList books={this.state.myBooks} />}
+                    <Table className="books user-home" responsive="sm">
+                      <thead>
+                        <tr className="mt-5 mb-5">
+                          <th>Cover</th>
+                          <th>Name</th>
+                          <th>Author</th>
+                          <th>Avg Rate</th>
+                          <th>Rating</th>
+                          <th>Shelve</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.myBooks.map(book => (
+                          <UserBookCard key={book.bookId._id} book={book} />
+                        ))}
+                      </tbody>
+                    </Table>
+                    {/* {<UserBookCard books={this.state.myBooks} />} */}
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <MyPaging />
+                    <MyPaging count={getPaginationCount(this.state.count)} action={this.onPaginationUpdate} />
                   </Col>
                 </Row>
               </Col>
