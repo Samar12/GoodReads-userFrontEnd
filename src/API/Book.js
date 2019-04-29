@@ -18,3 +18,16 @@ export const getBooksById = id => {
 export const bookSearch = name => {
   return axios.post(`${URL}/api/books/search`, { name }, { headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` } }).then(res => res.data);
 };
+
+export const getAllBooks = () => {
+  return axios
+    .get(`${BACKEND_URL}/api/books/Add`)
+    .then(res => {
+      const data = res.data;
+      return data;
+    })
+    .catch(error => {
+      // handle error
+      console.log(error);
+    });
+};
