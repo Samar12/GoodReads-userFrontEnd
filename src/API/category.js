@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BACKEND_URL = REACT_APP_BACKEND_URL || "http://localhost:3000";
+const URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
 export const getAllCategories = () => {
   return axios
-    .get(`${BACKEND_URL}/api/categories`)
+    .get(`${URL}/api/categories`)
     .then(res => {
       const data = res.data;
       return data;
@@ -17,7 +17,7 @@ export const getAllCategories = () => {
 
 export const getByCatId = id => {
   return axios
-    .get(`${BACKEND_URL}/api/categories/:categoryId`, { id })
+    .get(`${URL}/api/categories/:categoryId`, { id })
     .then(res => {
       const data = res.data;
       const id = data._id;
