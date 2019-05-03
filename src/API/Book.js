@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
+const URL = "https://goodreadsback.herokuapp.com" || "http://localhost:3000";
 
 export const getBooks = () => {
   return axios.get(`${URL}/api/books`, { headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` } }).then(res => {
